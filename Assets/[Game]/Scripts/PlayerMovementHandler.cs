@@ -11,6 +11,8 @@ public class PlayerMovementHandler : MonoBehaviour
     private bool isGrounded;
     public LayerMask groundLayer;
     public Animator anim;
+    public BulletController shotToFire;
+    public Transform shotPoint;
 
     void Start()
     {
@@ -37,6 +39,12 @@ public class PlayerMovementHandler : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
+
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Instantiate(shotToFire, shotPoint.position, shotPoint.rotation).moveDirection = new Vector2(transform.localScale.x, 0);
+        }
+
 
         anim.SetBool("isGrounded", isGrounded);
         anim.SetFloat("speed",Mathf.Abs(rb.velocity.x));
