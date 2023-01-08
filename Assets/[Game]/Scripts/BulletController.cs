@@ -7,6 +7,8 @@ public class BulletController : MonoBehaviour
     public float bulletSpeed;
     public Rigidbody2D rb;
     public Vector2 moveDirection;
+    public GameObject impactEffect;
+
 
     void Update()
     {
@@ -15,6 +17,11 @@ public class BulletController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        if (impactEffect != null)
+        {
+            Instantiate(impactEffect, transform.position, Quaternion.identity);
+        }
+        
         Destroy(gameObject);
     }
     void OnBecameInvisible()

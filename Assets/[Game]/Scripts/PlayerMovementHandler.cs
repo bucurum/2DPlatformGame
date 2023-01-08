@@ -43,6 +43,7 @@ public class PlayerMovementHandler : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             Instantiate(shotToFire, shotPoint.position, shotPoint.rotation).moveDirection = new Vector2(transform.localScale.x, 0);
+            anim.SetTrigger("shotFired");
         }
 
 
