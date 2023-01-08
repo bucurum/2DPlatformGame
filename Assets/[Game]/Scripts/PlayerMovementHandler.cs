@@ -13,6 +13,7 @@ public class PlayerMovementHandler : MonoBehaviour
     public Animator anim;
     public BulletController shotToFire;
     public Transform shotPoint;
+    private bool canDoubleJump;
 
     void Start()
     {
@@ -35,8 +36,18 @@ public class PlayerMovementHandler : MonoBehaviour
         
         isGrounded = Physics2D.OverlapCircle(groundPoint.position, .2f, groundLayer);
 
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if (Input.GetButtonDown("Jump") && (isGrounded || canDoubleJump))
         {
+            if (isGrounded)
+            {
+               canDoubleJump = true; 
+            }
+            else
+            {
+                canDoubleJump = false;
+                anim.SetTrigger("doubleJump");
+            }
+            
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
 
