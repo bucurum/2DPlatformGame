@@ -17,7 +17,8 @@ public class PlayerMovementHandler : MonoBehaviour
     [SerializeField] float dashSpeed;
     [SerializeField] float dashTime;
     private float dashCounter;
-    
+    private float dashRechargeCounter;
+
     public SpriteRenderer spriteRenderer;
     public SpriteRenderer afterImage;
     [SerializeField] float afterImageLifeTime;
@@ -25,8 +26,11 @@ public class PlayerMovementHandler : MonoBehaviour
     private float afterImageCounter;
     [SerializeField] Color afterImageColor;
     [SerializeField] float waitAfterDashing;
-    private float dashRechargeCounter;
-
+    
+    public GameObject standing;
+    public GameObject ball;
+    [SerializeField] float waitToBall;
+    private float ballCounter;
 
     void Start()
     {
@@ -40,7 +44,7 @@ public class PlayerMovementHandler : MonoBehaviour
         }
         else
         {
-            if (Input.GetButtonDown("Fire2"))
+            if (Input.GetButtonDown("Fire2") && standing.activeSelf)
             {
                 dashCounter = dashTime;
                 ShowAfterImage();
@@ -77,13 +81,14 @@ public class PlayerMovementHandler : MonoBehaviour
         
         isGrounded = Physics2D.OverlapCircle(groundPoint.position, .2f, groundLayer);
 
+        if (isGrounded)
+        {
+            canDoubleJump = true;
+        }
+
         if (Input.GetButtonDown("Jump") && (isGrounded || canDoubleJump))
         {
-            if (isGrounded)
-            {
-               canDoubleJump = true; 
-            }
-            else
+            if(!isGrounded)
             {
                 canDoubleJump = false;
                 anim.SetTrigger("doubleJump");
@@ -92,15 +97,58 @@ public class PlayerMovementHandler : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
 
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && standing.activeSelf)
         {
             Instantiate(shotToFire, shotPoint.position, shotPoint.rotation).moveDirection = new Vector2(transform.localScale.x, 0);
             anim.SetTrigger("shotFired");
         }
 
+        //ballMode
+        if (!ball.activeSelf)
+        {
+            if (Input.GetAxisRaw("Vertical") < -.9f)
+            {
+                ballCounter -= Time.deltaTime;
+                if (ballCounter <= 0)
+                {
+                    ball.SetActive(true);
+                    standing.SetActive(false);
+                }
+            }
+            else
+            {
+                ballCounter = waitToBall;
+            }
+        }
+        else
+        {
+            if (Input.GetAxisRaw("Vertical") > .9f)
+            {
+                ballCounter -= Time.deltaTime;
+                if (ballCounter <= 0)
+                {
+                    ball.SetActive(false);
+                    standing.SetActive(true);
+                }
+            }
+            else
+            {
+                ballCounter = waitToBall;
+            }
+        }
 
-        anim.SetBool("isGrounded", isGrounded);
-        anim.SetFloat("speed",Mathf.Abs(rb.velocity.x));
+        if (standing.activeSelf)
+        {
+            anim.SetBool("isGrounded", isGrounded);
+            anim.SetBool("isBallActive", false);
+            anim.SetFloat("speed",Mathf.Abs(rb.velocity.x)); 
+        }
+        if (ball.activeSelf)
+        {
+            anim.SetBool("isBallActive", true);  
+            anim.SetFloat("speed",Mathf.Abs(rb.velocity.x)); 
+        }
+        
 
     }
 
