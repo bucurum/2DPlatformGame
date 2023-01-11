@@ -2817,6 +2817,7 @@ GameObject:
   - component: {fileID: 1876883198}
   - component: {fileID: 1876883199}
   - component: {fileID: 1876883200}
+  - component: {fileID: 1876883203}
   - component: {fileID: 1876883202}
   - component: {fileID: 1876883201}
   m_Layer: 8
@@ -2902,6 +2903,7 @@ MonoBehaviour:
   bombPoint: {fileID: 1170443572}
   bomb: {fileID: 8739086721943197380, guid: f7c347687220a6248979fa18debc66f4, type: 3}
   bombWaitTime: 1
+  abilities: {fileID: 1876883203}
 --- !u!212 &1876883201
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2973,6 +2975,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1876883203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876883197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71861112ba7f14e4790fa0fa0622803a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canDoubleJump: 1
+  canDash: 1
+  canBecomeBall: 1
+  canDropBomb: 1
 --- !u!1001 &1966604824
 PrefabInstance:
   m_ObjectHideFlags: 0

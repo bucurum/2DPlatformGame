@@ -34,17 +34,20 @@ public class PlayerMovementHandler : MonoBehaviour
     public GameObject ball;
     [SerializeField] float waitToBall;
     private float ballCounter;
-    
+
     [Header("Bomb")]
     public Transform bombPoint;
     public GameObject bomb;
-    private float bombRechargeCounter;
     [SerializeField] float bombWaitTime;
-    private bool isBombPlaceable;
+    private bool isBombPlaceable = true;
+
+    [Header("Ability")]
+    [SerializeField] PlayerAbilityTracker abilities;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        abilities.GetComponent<PlayerAbilityTracker>();
     }
     void Update()
     {
@@ -54,7 +57,7 @@ public class PlayerMovementHandler : MonoBehaviour
         }
         else
         {
-            if (Input.GetButtonDown("Fire2") && standing.activeSelf)
+            if (Input.GetButtonDown("Fire2") && standing.activeSelf && abilities.canDash)
             {
                 dashCounter = dashTime;
                 ShowAfterImage();
@@ -96,7 +99,7 @@ public class PlayerMovementHandler : MonoBehaviour
             canDoubleJump = true;
         }
 
-        if (Input.GetButtonDown("Jump") && (isGrounded || canDoubleJump))
+        if (Input.GetButtonDown("Jump") && (isGrounded || (canDoubleJump) && abilities.canDoubleJump))
         {
             if(!isGrounded)
             {
@@ -107,8 +110,6 @@ public class PlayerMovementHandler : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
         
-        BombWaitTime();
-
         if (Input.GetButtonDown("Fire1"))
         {
             if (standing.activeSelf)
@@ -116,17 +117,15 @@ public class PlayerMovementHandler : MonoBehaviour
                 Instantiate(shotToFire, shotPoint.position, shotPoint.rotation).moveDirection = new Vector2(transform.localScale.x, 0);
                 anim.SetTrigger("shotFired");
             }
-            else if (ball.activeSelf && isBombPlaceable)
+            else if (ball.activeSelf && isBombPlaceable && abilities.canDropBomb)
             {
-                Instantiate(bomb, bombPoint.position, bombPoint.rotation);
-                isBombPlaceable = false;
+                StartCoroutine(PlaceAndRechargeBomb());
             }   
         }
-
         //ballMode
         if (!ball.activeSelf)
         {
-            if (Input.GetAxisRaw("Vertical") < -.9f)
+            if (Input.GetAxisRaw("Vertical") < -.9f && abilities.canBecomeBall)
             {
                 ballCounter -= Time.deltaTime;
                 if (ballCounter <= 0)
@@ -168,8 +167,6 @@ public class PlayerMovementHandler : MonoBehaviour
             anim.SetBool("isBallActive", true);  
             anim.SetFloat("speed",Mathf.Abs(rb.velocity.x)); 
         }
-        
-        
     }
 
     public void ShowAfterImage()
@@ -184,17 +181,12 @@ public class PlayerMovementHandler : MonoBehaviour
         afterImageCounter = timeBetweenAfterImage;
     }
 
-    public void BombWaitTime()
+    public IEnumerator PlaceAndRechargeBomb()
     {
-        if (bombRechargeCounter > 0)
-        {
-            bombRechargeCounter -= Time.deltaTime;
-        }
-        else
-        {
-            bombRechargeCounter = bombWaitTime;
-            isBombPlaceable = true;
-        } 
+        Instantiate(bomb, bombPoint.position, bombPoint.rotation);
+        isBombPlaceable = false;
+        yield return new WaitForSeconds(bombWaitTime);
+        isBombPlaceable = true;
     }
 
 }
