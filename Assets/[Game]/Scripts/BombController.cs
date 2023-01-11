@@ -8,6 +8,9 @@ public class BombController : MonoBehaviour
     public GameObject explosion;
     private float bombRechargeCounter;
 
+    [SerializeField] float blastRange;
+    public LayerMask destructibleLayer;
+
     void Update()
     {
         timeToExplode -= Time.deltaTime;
@@ -19,6 +22,16 @@ public class BombController : MonoBehaviour
                 Instantiate(explosion, transform.position, Quaternion.identity);
             }
             Destroy(gameObject);
+
+            Collider2D[] objectsToRemove = Physics2D.OverlapCircleAll(transform.position, blastRange, destructibleLayer);
+
+            if (objectsToRemove.Length > 0)
+            {
+                foreach (Collider2D collider2D in objectsToRemove)
+                {
+                    Destroy(collider2D.gameObject);
+                }
+            }
         }
     }
 
