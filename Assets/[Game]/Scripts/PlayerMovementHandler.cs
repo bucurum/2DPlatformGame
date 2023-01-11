@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMovementHandler : MonoBehaviour
 {
+    [Header("Player")]
     public Rigidbody2D rb;
     [SerializeField] float movementSpeed;
     [SerializeField] float jumpForce;
@@ -14,11 +15,12 @@ public class PlayerMovementHandler : MonoBehaviour
     public BulletController shotToFire;
     public Transform shotPoint;
     private bool canDoubleJump;
+
+    [Header("Player_Dash")]
     [SerializeField] float dashSpeed;
     [SerializeField] float dashTime;
     private float dashCounter;
     private float dashRechargeCounter;
-
     public SpriteRenderer spriteRenderer;
     public SpriteRenderer afterImage;
     [SerializeField] float afterImageLifeTime;
@@ -26,11 +28,19 @@ public class PlayerMovementHandler : MonoBehaviour
     private float afterImageCounter;
     [SerializeField] Color afterImageColor;
     [SerializeField] float waitAfterDashing;
-    
+
+    [Header("Player_Ball")]
     public GameObject standing;
     public GameObject ball;
     [SerializeField] float waitToBall;
     private float ballCounter;
+    
+    [Header("Bomb")]
+    public Transform bombPoint;
+    public GameObject bomb;
+    private float bombRechargeCounter;
+    [SerializeField] float bombWaitTime;
+    private bool isBombPlaceable;
 
     void Start()
     {
@@ -96,11 +106,21 @@ public class PlayerMovementHandler : MonoBehaviour
             
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
+        
+        BombWaitTime();
 
-        if (Input.GetButtonDown("Fire1") && standing.activeSelf)
+        if (Input.GetButtonDown("Fire1"))
         {
-            Instantiate(shotToFire, shotPoint.position, shotPoint.rotation).moveDirection = new Vector2(transform.localScale.x, 0);
-            anim.SetTrigger("shotFired");
+            if (standing.activeSelf)
+            {
+                Instantiate(shotToFire, shotPoint.position, shotPoint.rotation).moveDirection = new Vector2(transform.localScale.x, 0);
+                anim.SetTrigger("shotFired");
+            }
+            else if (ball.activeSelf && isBombPlaceable)
+            {
+                Instantiate(bomb, bombPoint.position, bombPoint.rotation);
+                isBombPlaceable = false;
+            }   
         }
 
         //ballMode
@@ -149,7 +169,7 @@ public class PlayerMovementHandler : MonoBehaviour
             anim.SetFloat("speed",Mathf.Abs(rb.velocity.x)); 
         }
         
-
+        
     }
 
     public void ShowAfterImage()
@@ -162,6 +182,19 @@ public class PlayerMovementHandler : MonoBehaviour
         Destroy(image.gameObject, afterImageLifeTime);
 
         afterImageCounter = timeBetweenAfterImage;
+    }
+
+    public void BombWaitTime()
+    {
+        if (bombRechargeCounter > 0)
+        {
+            bombRechargeCounter -= Time.deltaTime;
+        }
+        else
+        {
+            bombRechargeCounter = bombWaitTime;
+            isBombPlaceable = true;
+        } 
     }
 
 }
