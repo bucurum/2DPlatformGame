@@ -8,7 +8,7 @@ public class BulletController : MonoBehaviour
     public Rigidbody2D rb;
     public Vector2 moveDirection;
     public GameObject impactEffect;
-
+    public int damageAmount = 1;
 
     void Update()
     {
@@ -17,6 +17,10 @@ public class BulletController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.CompareTag("Enemy"))
+        {
+            other.GetComponent<EnemyHealthController>().DamageEnemy(damageAmount);
+        }
         if (impactEffect != null)
         {
             Instantiate(impactEffect, transform.position, Quaternion.identity);
