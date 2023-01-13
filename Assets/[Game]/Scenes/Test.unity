@@ -192,7 +192,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7952be62b3e547a4a94712b8227629bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageAmount: 2
+  damageAmount: 3
+  explode: 1
+  explosionEffect: {fileID: 7632786048245117080, guid: 867f9e98d76cdb0459d2d5666858382e, type: 3}
 --- !u!114 &248693229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6328,7 +6330,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 987706950}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 20b7877a5b66c1042afc9aeff0d2c5cb, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -6407,6 +6409,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageAmount: 1
+  explode: 0
+  explosionEffect: {fileID: 0}
 --- !u!1001 &987787868
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7068,6 +7072,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 0
   maxHealth: 10
+  invincibilityLenght: 1.5
+  flashLenght: 0.05
+  playerSprites:
+  - {fileID: 909488731}
+  - {fileID: 731778433}
 --- !u!1001 &1966604824
 PrefabInstance:
   m_ObjectHideFlags: 0

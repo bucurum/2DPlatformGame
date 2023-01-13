@@ -9,6 +9,12 @@ public class PlayerHealthController : MonoBehaviour
     //[HideInInspector]
     public int currentHealth;
     public int maxHealth;
+    [SerializeField] float invincibilityLenght;
+    private float invincibilityCounter;
+    [SerializeField] float flashLenght;
+    private float flashCounter;
+
+    public SpriteRenderer[] playerSprites;
 
     void Awake()
     {
@@ -22,17 +28,52 @@ public class PlayerHealthController : MonoBehaviour
         UIController.instance.UpdateHealth(currentHealth, maxHealth);
     }
 
+    void Update()
+    {
+        if (invincibilityCounter > 0)
+        {
+            invincibilityCounter -= Time.deltaTime;
+        
+            flashCounter -=Time.deltaTime;
+
+            if (flashCounter <0)
+            {
+                foreach (SpriteRenderer spriteRenderer in playerSprites)
+                {
+                    spriteRenderer.enabled = !spriteRenderer.enabled;
+                }
+                flashCounter = flashLenght;
+            }
+
+            if (invincibilityCounter <= 0)
+            {
+                foreach (SpriteRenderer spriteRenderer in playerSprites)
+                {
+                    spriteRenderer.enabled = true;
+                }  
+                flashCounter = 0;  
+            }
+        }
+    }
 
     public void DamagePlayer(int damageAmout)
     {
-        currentHealth -= damageAmout;
-
-        if (currentHealth <= 0)
+        if (invincibilityCounter <= 0)
         {
-            currentHealth = 0;
+            currentHealth -= damageAmout;
 
-            gameObject.SetActive(false);
+            if (currentHealth <= 0)
+            {
+                currentHealth = 0;
+
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                invincibilityCounter = invincibilityLenght;
+            }
+            UIController.instance.UpdateHealth(currentHealth, maxHealth);
         }
-        UIController.instance.UpdateHealth(currentHealth, maxHealth);
+        
     }
 }
