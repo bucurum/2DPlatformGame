@@ -18,7 +18,16 @@ public class PlayerHealthController : MonoBehaviour
 
     void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject); //when we reload or load the next scene don`t destoy the player, so player don`t loose its progress 
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        
     }
 
     void Start()
@@ -66,7 +75,9 @@ public class PlayerHealthController : MonoBehaviour
             {
                 currentHealth = 0;
 
-                gameObject.SetActive(false);
+                //gameObject.SetActive(false);
+            
+                RespawnController.instance.Respawn();
             }
             else
             {
@@ -75,5 +86,10 @@ public class PlayerHealthController : MonoBehaviour
             UIController.instance.UpdateHealth(currentHealth, maxHealth);
         }
         
+    }
+    public void FillHeath()
+    {
+        currentHealth = maxHealth;
+        UIController.instance.UpdateHealth(currentHealth, maxHealth);
     }
 }

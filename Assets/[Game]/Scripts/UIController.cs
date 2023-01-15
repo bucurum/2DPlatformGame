@@ -9,7 +9,16 @@ public class UIController : MonoBehaviour
 
     void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject); //when we reload or load the next scene don`t destoy the player, so player don`t loose its progress 
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        
     }
 
     public void UpdateHealth(int currentHealth, int maxHealth)
