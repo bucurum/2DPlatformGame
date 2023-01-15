@@ -23,6 +23,7 @@ public class RespawnController : MonoBehaviour
     private Vector3 respawnPoint;
     [SerializeField] float waitToRespawn;
     private GameObject player;
+    public GameObject deathEffect;
 
     void Start()
     {
@@ -39,6 +40,12 @@ public class RespawnController : MonoBehaviour
     IEnumerator RespawnCoroutine()
     {
         player.SetActive(false);
+        
+        if (deathEffect != null)
+        {
+            Instantiate(deathEffect, player.transform.position, Quaternion.identity);
+        }
+
         yield return new WaitForSeconds(waitToRespawn);
         
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -47,5 +54,10 @@ public class RespawnController : MonoBehaviour
         
         player.SetActive(true);
         PlayerHealthController.instance.FillHeath();
+    }
+    
+    public void SetSpawnPoint(Vector3 newPosition)
+    {
+        respawnPoint = newPosition;
     }
 }

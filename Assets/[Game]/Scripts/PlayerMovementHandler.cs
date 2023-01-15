@@ -15,6 +15,7 @@ public class PlayerMovementHandler : MonoBehaviour
     public BulletController shotToFire;
     public Transform shotPoint;
     private bool canDoubleJump;
+    public bool canMove;
 
     [Header("Player_Dash")]
     [SerializeField] float dashSpeed;
@@ -48,112 +49,120 @@ public class PlayerMovementHandler : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         abilities.GetComponent<PlayerAbilityTracker>();
+        canMove = true;
     }
     void Update()
     {
-        if (dashRechargeCounter > 0)
+        if (canMove)
         {
-            dashRechargeCounter -= Time.deltaTime;
-        }
-        else
-        {
-            if (Input.GetButtonDown("Fire2") && standing.activeSelf && abilities.canDash)
+            if (dashRechargeCounter > 0)
             {
-                dashCounter = dashTime;
-                ShowAfterImage();
+                dashRechargeCounter -= Time.deltaTime;
             }
-        }
-        
-        if (dashCounter > 0)
-        {
-            dashCounter -= Time.deltaTime;
-            rb.velocity = new Vector2(dashSpeed * transform.localScale.x, rb.velocity.y);
-
-            afterImageCounter -= Time.deltaTime;
-            if (afterImageCounter < 0)
+            else
             {
-                ShowAfterImage();
-            }
-            dashRechargeCounter = waitAfterDashing;
-        }
-        else
-        {
-            //in this code we set player movement with "ad or arrow keys"
-            rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * movementSpeed, rb.velocity.y); //there is 2 GetAxis method, GetAxis and GetAxisRaw, the diffrence between two is GetAxis is wait a little time and add movement to player movement, GetAxisRaw is when you press the keys the player move instantly
-    
-            //handle direction change
-            if (rb.velocity.x < 0)
-            {
-                transform.localScale = new Vector3(-1f, 1f, 1f);
-            }
-            else if (rb.velocity.x > 0)
-            {
-                transform.localScale = Vector3.one;
-            }
-        }
-        
-        isGrounded = Physics2D.OverlapCircle(groundPoint.position, .2f, groundLayer);
-
-        if (isGrounded)
-        {
-            canDoubleJump = true;
-        }
-
-        if (Input.GetButtonDown("Jump") && (isGrounded || (canDoubleJump) && abilities.canDoubleJump))
-        {
-            if(!isGrounded)
-            {
-                canDoubleJump = false;
-                anim.SetTrigger("doubleJump");
-            }
-            
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-        }
-        
-        if (Input.GetButtonDown("Fire1"))
-        {
-            if (standing.activeSelf)
-            {
-                Instantiate(shotToFire, shotPoint.position, shotPoint.rotation).moveDirection = new Vector2(transform.localScale.x, 0);
-                anim.SetTrigger("shotFired");
-            }
-            else if (ball.activeSelf && isBombPlaceable && abilities.canDropBomb)
-            {
-                StartCoroutine(PlaceAndRechargeBomb());
-            }   
-        }
-        //ballMode
-        if (!ball.activeSelf)
-        {
-            if (Input.GetAxisRaw("Vertical") < -.9f && abilities.canBecomeBall)
-            {
-                ballCounter -= Time.deltaTime;
-                if (ballCounter <= 0)
+                if (Input.GetButtonDown("Fire2") && standing.activeSelf && abilities.canDash)
                 {
-                    ball.SetActive(true);
-                    standing.SetActive(false);
+                    dashCounter = dashTime;
+                    ShowAfterImage();
+                }
+            }
+
+            if (dashCounter > 0)
+            {
+                dashCounter -= Time.deltaTime;
+                rb.velocity = new Vector2(dashSpeed * transform.localScale.x, rb.velocity.y);
+
+                afterImageCounter -= Time.deltaTime;
+                if (afterImageCounter < 0)
+                {
+                    ShowAfterImage();
+                }
+                dashRechargeCounter = waitAfterDashing;
+            }
+            else
+            {
+                //in this code we set player movement with "ad or arrow keys"
+                rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * movementSpeed, rb.velocity.y); //there is 2 GetAxis method, GetAxis and GetAxisRaw, the diffrence between two is GetAxis is wait a little time and add movement to player movement, GetAxisRaw is when you press the keys the player move instantly
+
+                //handle direction change
+                if (rb.velocity.x < 0)
+                {
+                    transform.localScale = new Vector3(-1f, 1f, 1f);
+                }
+                else if (rb.velocity.x > 0)
+                {
+                    transform.localScale = Vector3.one;
+                }
+            }
+
+            isGrounded = Physics2D.OverlapCircle(groundPoint.position, .2f, groundLayer);
+
+            if (isGrounded)
+            {
+                canDoubleJump = true;
+            }
+
+            if (Input.GetButtonDown("Jump") && (isGrounded || (canDoubleJump) && abilities.canDoubleJump))
+            {
+                if(!isGrounded)
+                {
+                    canDoubleJump = false;
+                    anim.SetTrigger("doubleJump");
+                }
+
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            }
+
+            if (Input.GetButtonDown("Fire1"))
+            {
+                if (standing.activeSelf)
+                {
+                    Instantiate(shotToFire, shotPoint.position, shotPoint.rotation).moveDirection = new Vector2(transform.localScale.x, 0);
+                    anim.SetTrigger("shotFired");
+                }
+                else if (ball.activeSelf && isBombPlaceable && abilities.canDropBomb)
+                {
+                    StartCoroutine(PlaceAndRechargeBomb());
+                }   
+            }
+            //ballMode
+            if (!ball.activeSelf)
+            {
+                if (Input.GetAxisRaw("Vertical") < -.9f && abilities.canBecomeBall)
+                {
+                    ballCounter -= Time.deltaTime;
+                    if (ballCounter <= 0)
+                    {
+                        ball.SetActive(true);
+                        standing.SetActive(false);
+                    }
+                }
+                else
+                {
+                    ballCounter = waitToBall;
                 }
             }
             else
             {
-                ballCounter = waitToBall;
+                if (Input.GetAxisRaw("Vertical") > .9f)
+                {
+                    ballCounter -= Time.deltaTime;
+                    if (ballCounter <= 0)
+                    {
+                        ball.SetActive(false);
+                        standing.SetActive(true);
+                    }
+                }
+                else
+                {
+                    ballCounter = waitToBall;
+                }
             }
         }
         else
         {
-            if (Input.GetAxisRaw("Vertical") > .9f)
-            {
-                ballCounter -= Time.deltaTime;
-                if (ballCounter <= 0)
-                {
-                    ball.SetActive(false);
-                    standing.SetActive(true);
-                }
-            }
-            else
-            {
-                ballCounter = waitToBall;
-            }
+            rb.velocity = Vector2.zero;
         }
 
         if (standing.activeSelf)
@@ -167,6 +176,7 @@ public class PlayerMovementHandler : MonoBehaviour
             anim.SetBool("isBallActive", true);  
             anim.SetFloat("speed",Mathf.Abs(rb.velocity.x)); 
         }
+        
     }
 
     public void ShowAfterImage()
