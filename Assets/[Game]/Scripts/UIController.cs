@@ -9,6 +9,7 @@ public class UIController : MonoBehaviour
     [SerializeField] float fadeSpeed;
     private bool fadingToBlack;
     private bool fadingToNormal;
+    
 
     void Awake()
     {
