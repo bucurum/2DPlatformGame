@@ -13,11 +13,13 @@ public class DoorController : MonoBehaviour
     [SerializeField] float movePlayerSpeed;
     [SerializeField] bool isGoingToNextScene;
     [SerializeField] bool isGoingToPreviousScene;
+    private GameObject thePlayer;
     
 
     void Start()
     {
         player = PlayerHealthController.instance.GetComponent<PlayerMovementHandler>();
+        thePlayer = PlayerHealthController.instance.gameObject;
     }
 
     void Update()
@@ -69,12 +71,22 @@ public class DoorController : MonoBehaviour
 
         if (isGoingToNextScene)
         {
-            SceneManager.LoadScene(nextIndex); 
+            if (SceneManager.sceneCountInBuildSettings > nextIndex)
+            {
+                SceneManager.LoadScene(nextIndex); 
+            }
+            else
+            {
+                thePlayer.transform.position = Vector3.zero;
+                SceneManager.LoadScene(0);
+                //Make this for prevent the bug. if there is not a next scene load the first scene but all the progress that the player made is not reset so make it to reset
+                
+            }
+            
         }
         else if (isGoingToPreviousScene)
         {
             SceneManager.LoadScene(previousIndex); 
         }
     }
-    //git Commit
 }
