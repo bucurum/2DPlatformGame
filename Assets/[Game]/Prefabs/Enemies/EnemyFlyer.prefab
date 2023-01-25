@@ -115,7 +115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rangeToStartChase: 10
-  moveSpeed: 5
+  moveSpeed: 6.5
   turnSpeed: 5
   anim: {fileID: 208117971664147643}
 --- !u!1 &208117971664147638
