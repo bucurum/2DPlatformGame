@@ -5,7 +5,6 @@ using UnityEngine;
 public class CheckPoint : MonoBehaviour
 {
     //TODO: whenever the player picks up the checkpoint and die, destroy the pickuped abilities
-    //testForGithubBug
    void OnTriggerEnter2D(Collider2D other)
    {
         if (other.CompareTag("Player"))
