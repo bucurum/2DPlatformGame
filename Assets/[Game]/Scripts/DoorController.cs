@@ -14,12 +14,17 @@ public class DoorController : MonoBehaviour
     [SerializeField] bool isGoingToNextScene;
     [SerializeField] bool isGoingToPreviousScene;
     private GameObject thePlayer;
-    
+    private PlayerAbilityTracker playerAbility;
+    private GameObject playerGameobject;
+    private PlayerMovementHandler playerMovementHandler;
 
-    void Start()
+    void Awake()
     {
         player = PlayerHealthController.instance.GetComponent<PlayerMovementHandler>();
         thePlayer = PlayerHealthController.instance.gameObject;
+        playerGameobject = GameObject.FindGameObjectWithTag("Player");
+        playerAbility = playerGameobject.GetComponent<PlayerAbilityTracker>();
+        playerMovementHandler = playerGameobject.GetComponent<PlayerMovementHandler>();
     }
 
     void Update()
@@ -77,8 +82,14 @@ public class DoorController : MonoBehaviour
             }
             else
             {
-                thePlayer.transform.position = Vector3.zero;
+                setToZero();
                 SceneManager.LoadScene(0);
+               /* 
+                
+                RespawnController.instance.SetSpawnPoint(Vector3.zero);
+                */
+                
+                
                 //Make this for prevent the bug. if there is not a next scene load the first scene but all the progress that the player made is not reset so make it to reset
                 
             }
@@ -88,5 +99,16 @@ public class DoorController : MonoBehaviour
         {
             SceneManager.LoadScene(previousIndex); 
         }
+    }
+    void setToZero()
+    {
+        playerMovementHandler.standing.SetActive(true);
+        playerMovementHandler.ball.SetActive(false);
+        thePlayer.transform.position = Vector3.zero;
+        PlayerHealthController.instance.FillHeath(); 
+        playerAbility.canDash = false;
+        playerAbility.canBecomeBall = false;
+        playerAbility.canDoubleJump = false;
+        playerAbility.canDropBomb = false;
     }
 }
