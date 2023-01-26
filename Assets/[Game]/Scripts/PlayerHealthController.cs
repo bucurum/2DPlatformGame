@@ -6,11 +6,11 @@ public class PlayerHealthController : MonoBehaviour
 {
     public static PlayerHealthController instance;
 
-    //[HideInInspector]
+    [HideInInspector]
     public int currentHealth;
     public int maxHealth;
     [SerializeField] float invincibilityLenght;
-    private float invincibilityCounter;
+    public float invincibilityCounter;
     [SerializeField] float flashLenght;
     private float flashCounter;
 

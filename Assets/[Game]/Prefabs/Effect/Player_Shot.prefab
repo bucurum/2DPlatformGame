@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5005369640774961442}
   m_Layer: 7
   m_Name: Player_Shot
-  m_TagString: Untagged
+  m_TagString: Shot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -3104709011019773545, guid: b6cbda95cd03a02438614c563174d494, type: 3}
+  m_Sprite: {fileID: -3442273424303929756, guid: daa903a88b1dc524aa2f5ece96f3a1a8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -138,6 +138,7 @@ MonoBehaviour:
   rb: {fileID: 5005369640774961442}
   moveDirection: {x: 1, y: 0}
   impactEffect: {fileID: 3576266541209782834, guid: 11c87051a6a585745847f85790b9bc53, type: 3}
+  damageAmount: 1
 --- !u!50 &5005369640774961442
 Rigidbody2D:
   serializedVersion: 4

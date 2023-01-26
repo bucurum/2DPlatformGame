@@ -17,7 +17,8 @@ public class HealthPickup : MonoBehaviour
             {
                 Instantiate(pickupEffect, transform.position, Quaternion.identity);
             }
+            Destroy(gameObject);
         }
-        Destroy(gameObject);
+        
     }
 }

@@ -420,7 +420,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 0
   maxHealth: 10
-  invincibilityLenght: 1.5
+  invincibilityLenght: 1
   flashLenght: 0.05
   playerSprites:
   - {fileID: 4928341028112788391}

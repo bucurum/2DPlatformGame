@@ -177,7 +177,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 208117970958024386, guid: 511a77c5d7f8bac42bea25d63450eea2, type: 3}
       propertyPath: moveSpeed
-      value: 8
+      value: 6.5
       objectReference: {fileID: 0}
     - target: {fileID: 208117970958024387, guid: 511a77c5d7f8bac42bea25d63450eea2, type: 3}
       propertyPath: m_RootOrder
@@ -11977,11 +11977,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2590159479865348878, guid: 4093dd8d6bc46c144b7f712349485937, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 349.192
+      value: 369.91
       objectReference: {fileID: 0}
     - target: {fileID: 2590159479865348878, guid: 4093dd8d6bc46c144b7f712349485937, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 21
+      value: 28.26
       objectReference: {fileID: 0}
     - target: {fileID: 2590159479865348878, guid: 4093dd8d6bc46c144b7f712349485937, type: 3}
       propertyPath: m_LocalPosition.z
@@ -12015,6 +12015,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2590159479865348912, guid: 4093dd8d6bc46c144b7f712349485937, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4093dd8d6bc46c144b7f712349485937, type: 3}
 --- !u!4 &639939662 stripped
@@ -12032,6 +12036,10 @@ PrefabInstance:
     - target: {fileID: 7788925874800313808, guid: 887024875831cbb41988ff395e4abda7, type: 3}
       propertyPath: m_Name
       value: CheckPoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 7788925874800313808, guid: 887024875831cbb41988ff395e4abda7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7788925874800313838, guid: 887024875831cbb41988ff395e4abda7, type: 3}
       propertyPath: m_RootOrder
@@ -12254,7 +12262,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4928341028794937080, guid: fa9ded7630276c241b21adfa47d48a5d, type: 3}
       propertyPath: invincibilityLenght
-      value: 0.3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4928341028794937084, guid: fa9ded7630276c241b21adfa47d48a5d, type: 3}
       propertyPath: dashTime
@@ -12270,15 +12278,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4928341028794937087, guid: fa9ded7630276c241b21adfa47d48a5d, type: 3}
       propertyPath: canDropBomb
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4928341028794937087, guid: fa9ded7630276c241b21adfa47d48a5d, type: 3}
       propertyPath: canBecomeBall
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4928341028794937087, guid: fa9ded7630276c241b21adfa47d48a5d, type: 3}
       propertyPath: canDoubleJump
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4928341028794937089, guid: fa9ded7630276c241b21adfa47d48a5d, type: 3}
       propertyPath: m_Name
@@ -12290,11 +12298,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4928341028794937090, guid: fa9ded7630276c241b21adfa47d48a5d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 296.34
+      value: 373.05
       objectReference: {fileID: 0}
     - target: {fileID: 4928341028794937090, guid: fa9ded7630276c241b21adfa47d48a5d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 23.67
+      value: 28.68
       objectReference: {fileID: 0}
     - target: {fileID: 4928341028794937090, guid: fa9ded7630276c241b21adfa47d48a5d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -12427,6 +12435,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 980159579}
+  - component: {fileID: 980159580}
   m_Layer: 0
   m_Name: Enemies
   m_TagString: Untagged
@@ -12452,6 +12461,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &980159580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 980159578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7952be62b3e547a4a94712b8227629bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageAmount: 0
+  explode: 0
+  explosionEffect: {fileID: 0}
 --- !u!1 &995371496
 GameObject:
   m_ObjectHideFlags: 0
@@ -12786,7 +12810,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 208117970958024386, guid: 511a77c5d7f8bac42bea25d63450eea2, type: 3}
       propertyPath: moveSpeed
-      value: 6
+      value: 6.5
       objectReference: {fileID: 0}
     - target: {fileID: 208117970958024387, guid: 511a77c5d7f8bac42bea25d63450eea2, type: 3}
       propertyPath: m_RootOrder

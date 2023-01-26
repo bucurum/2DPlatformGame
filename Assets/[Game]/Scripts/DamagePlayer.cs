@@ -11,16 +11,31 @@ public class DamagePlayer : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             DealDamage();
+            if (explode)
+            {
+                PlayerHealthController.instance.invincibilityCounter = 0; 
+            }
         }
     }
+    
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
             DealDamage();
+            if (explode)
+            {
+            PlayerHealthController.instance.invincibilityCounter = 0; 
+            }
         }
     }
-
+    void OnTriggerExit2D(Collision2D other)
+    {
+        if (explode)
+        {
+            PlayerHealthController.instance.invincibilityCounter = 0; 
+        }
+    }
     void DealDamage()
     {
         PlayerHealthController.instance.DamagePlayer(damageAmount);
