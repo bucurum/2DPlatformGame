@@ -9,8 +9,8 @@ public class UIController : MonoBehaviour
     [SerializeField] float fadeSpeed;
     private bool fadingToBlack;
     private bool fadingToNormal;
+    public GameObject ui;
     
-
     void Awake()
     {
         if (instance == null)
@@ -22,7 +22,11 @@ public class UIController : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
+       
+    }
+    void Start()
+    {
+        ui.gameObject.SetActive(true);
     }
     void Update()
     {

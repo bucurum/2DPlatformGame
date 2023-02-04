@@ -118,7 +118,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeToExplode: 0.5
   explosion: {fileID: 7632786048245117080, guid: 867f9e98d76cdb0459d2d5666858382e, type: 3}
-  blastRange: 1.5
+  blastRange: 3
   destructibleLayer:
     serializedVersion: 2
     m_Bits: 512

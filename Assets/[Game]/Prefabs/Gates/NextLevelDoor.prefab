@@ -78,6 +78,7 @@ MonoBehaviour:
   movePlayerSpeed: 10
   isGoingToNextScene: 1
   isGoingToPreviousScene: 0
+  thePlayer: {fileID: 4928341028794937089, guid: fa9ded7630276c241b21adfa47d48a5d, type: 3}
 --- !u!1 &4863708117729900698
 GameObject:
   m_ObjectHideFlags: 0

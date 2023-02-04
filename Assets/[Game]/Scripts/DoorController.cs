@@ -15,16 +15,12 @@ public class DoorController : MonoBehaviour
     [SerializeField] bool isGoingToPreviousScene;
     private GameObject thePlayer;
     private PlayerAbilityTracker playerAbility;
-    private GameObject playerGameobject;
-    private PlayerMovementHandler playerMovementHandler;
 
     void Awake()
     {
         player = PlayerHealthController.instance.GetComponent<PlayerMovementHandler>();
         thePlayer = PlayerHealthController.instance.gameObject;
-        playerGameobject = GameObject.FindGameObjectWithTag("Player");
-        playerAbility = playerGameobject.GetComponent<PlayerAbilityTracker>();
-        playerMovementHandler = playerGameobject.GetComponent<PlayerMovementHandler>();
+        playerAbility = thePlayer.GetComponent<PlayerAbilityTracker>();
     }
 
     void Update()
@@ -102,8 +98,8 @@ public class DoorController : MonoBehaviour
     }
     void setToZero()
     {
-        playerMovementHandler.standing.SetActive(true);
-        playerMovementHandler.ball.SetActive(false);
+        player.standing.SetActive(true);
+        player.ball.SetActive(false);
         thePlayer.transform.position = Vector3.zero;
         PlayerHealthController.instance.FillHeath(); 
         playerAbility.canDash = false;
